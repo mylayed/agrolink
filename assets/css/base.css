@@ -1,0 +1,208 @@
+/* ============================================================
+   AgroLink — base: tokens, reset, typography
+   ============================================================ */
+
+:root {
+  /* palette */
+  --ink:        #0B1D12;
+  --ink-deep:   #061109;
+  --ink-soft:   #16301F;
+  --canvas:     #F6F3EC;
+  --canvas-warm:#EDE7DA;
+  --line:       #DBD3C4;
+  --leaf:       #1E6B45;
+  --leaf-dark:  #145234;
+  --sprout:     #C8E06A;
+  --brass:      #C08A3E;
+
+  --text:       #0B1D12;
+  --text-mute:  #5B6A5F;
+  --text-light: #F6F3EC;
+  --text-light-mute: rgba(246, 243, 236, .66);
+
+  /* type */
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* layout */
+  --container: 1440px;
+  --gutter: clamp(1.25rem, 5vw, 6rem);
+  --section-y: clamp(6rem, 12vw, 11rem);
+  --radius: 4px;
+  --radius-lg: 10px;
+
+  /* motion */
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --ease-soft: cubic-bezier(.4, 0, .2, 1);
+  --dur: .5s;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* lock scroll while preloader / menu open */
+body.is-locked { overflow: hidden; height: 100vh; }
+
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3, h4, p, blockquote, figure { margin: 0; }
+
+::selection { background: var(--sprout); color: var(--ink); }
+
+/* ---------- focus ---------- */
+:focus-visible {
+  outline: 2px solid var(--leaf);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.global :focus-visible,
+.cta :focus-visible,
+.footer :focus-visible,
+.hero :focus-visible { outline-color: var(--sprout); }
+
+.skip-link {
+  position: fixed;
+  top: 0; left: 50%;
+  transform: translate(-50%, -120%);
+  z-index: 9999;
+  background: var(--ink);
+  color: var(--text-light);
+  padding: .75rem 1.5rem;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: transform .3s var(--ease);
+}
+.skip-link:focus { transform: translate(-50%, 0); }
+
+/* ---------- layout ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section { padding-block: var(--section-y); }
+
+/* ============================================================
+   Typography
+   ============================================================ */
+
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5.4vw, 4.6rem);
+  line-height: .98;
+  letter-spacing: -.025em;
+  font-variation-settings: "SOFT" 20, "WONK" 1;
+  color: var(--ink);
+}
+.h2 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--leaf);
+  font-variation-settings: "SOFT" 60, "WONK" 1;
+}
+.h2--light { color: var(--text-light); }
+.h2--light em { color: var(--sprout); }
+
+.lead {
+  font-size: clamp(1.05rem, 1.5vw, 1.28rem);
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 46ch;
+  font-weight: 500;
+}
+.lead--light { color: var(--text-light); }
+
+.body-text {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-mute);
+  max-width: 52ch;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--leaf);
+}
+.eyebrow--light { color: var(--sprout); }
+.eyebrow__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+/* section heading block */
+.section-head {
+  display: grid;
+  grid-template-columns: 1.35fr .9fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: end;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+.section-head .eyebrow { margin-bottom: 1.25rem; }
+.section-head__note {
+  color: var(--text-mute);
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 40ch;
+  padding-bottom: .4rem;
+}
+
+/* ============================================================
+   Animation primitives
+   ============================================================ */
+
+/* line-splitting mask */
+.line-mask { display: block; overflow: hidden; padding-bottom: .06em; }
+.split-line { display: block; will-change: transform; }
+
+/* SplitType needs the source text intact for screen readers */
+.split-line { transform-origin: left bottom; }
+
+/* JS sets initial hidden states only once ready */
+html.js-ready [data-fade] { opacity: 0; transform: translateY(26px); }
+html.js-ready [data-reveal-img] > img { transform: scale(1.16); }
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html.js-ready [data-fade] { opacity: 1 !important; transform: none !important; }
+  html.js-ready [data-reveal-img] > img { transform: none !important; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
